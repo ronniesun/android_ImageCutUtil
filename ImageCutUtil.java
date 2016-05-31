@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by ronnie on 2016/5/17.
+ * Created by ronniesun on 2016/5/31.
  */
 public class ImageCutUtil {
 	/**
