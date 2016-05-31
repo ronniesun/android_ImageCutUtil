@@ -15,8 +15,8 @@ import java.io.IOException;
  */
 public class ImageCutUtil {
 	/**
-	 * @param srcPath 原图路径
-	 * @param resPath 结果路径
+	 * @param srcPath
+	 * @param resPath
 	 */
 	public static boolean cut(String srcPath, String resPath) {
 		int minWidth = 720; // SCREEN_WIDTH
@@ -25,8 +25,8 @@ public class ImageCutUtil {
 	}
 
 	/**
-	 * @param srcPath 原图路径
-	 * @param resPath 结果路径
+	 * @param srcPath
+	 * @param resPath
 	 */
 	public static boolean cut(String srcPath, String resPath, int minWidth, int minHeight) {
 		boolean flag = false;
@@ -38,24 +38,24 @@ public class ImageCutUtil {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(srcPath, options);
 
-		// 是否需要压缩
+		// whether need to cut
 		if (options.outHeight > options.outWidth) {
-			// 竖图
+			// vertical
 			if (options.outHeight <= minHeight && options.outWidth <= minWidth) {
 				return copyFile(srcPath, resPath);
 			}
 		} else {
-			// 横图
+			// horizontal
 			if (options.outHeight <= minWidth && options.outWidth <= minHeight) {
 				return copyFile(srcPath, resPath);
 			}
 		}
 
 		if (options.outHeight > options.outWidth) {
-			// 竖图
+			// vertical
 			options.inSampleSize = calculateInSampleSize(options, minWidth, minHeight);
 		} else {
-			// 横图
+			// horizontal
 			options.inSampleSize = calculateInSampleSize(options, minHeight, minWidth);
 		}
 		options.inJustDecodeBounds = false;
@@ -64,23 +64,23 @@ public class ImageCutUtil {
 			return flag;
 		}
 
-		// 计算压缩比例和旋转
+		// calculate scale and degree
 		int srcWidth = srcBitmap.getWidth();
 		int srcHeight = srcBitmap.getHeight();
 		Matrix matrix = new Matrix();
 		float scaleWidth;
 		float scaleHeight;
 		if (options.outHeight > options.outWidth) {
-			// 竖图
+			// vertical
 			scaleWidth = ((float) minWidth / srcWidth);
 			scaleHeight = ((float) minHeight / srcHeight);
 		} else {
-			// 横图
+			// horizontal
 			scaleWidth = ((float) minWidth / srcHeight);
 			scaleHeight = ((float) minHeight / srcWidth);
 		}
 
-		// 等比取大的
+		// scale
 		float scale = scaleWidth > scaleHeight ? scaleWidth : scaleHeight;
 		matrix.postScale(scale, scale);
 		int degree = readPictureDegree(srcPath);
@@ -196,7 +196,7 @@ public class ImageCutUtil {
 	}
 
 	/**
-	 * 文件复制
+	 * copy file
 	 */
 	private static boolean copyFile(String fromPath, String toPath) {
 		boolean flag = false;
