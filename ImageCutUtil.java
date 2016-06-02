@@ -19,8 +19,8 @@ public class ImageCutUtil {
 	 * @param resPath
 	 */
 	public static boolean cut(String srcPath, String resPath) {
-		int minWidth = 720; // SCREEN_WIDTH
-		int minHeight = 1280; // SCREEN_HEIGHT
+		int minWidth = 640; // 
+		int minHeight = 1136; // 
 		return cut(srcPath, resPath, minWidth, minHeight);
 	}
 
@@ -58,8 +58,16 @@ public class ImageCutUtil {
 			// horizontal
 			options.inSampleSize = calculateInSampleSize(options, minHeight, minWidth);
 		}
+		
+		options.inPreferredConfig = Bitmap.Config.ARGB_4444;
 		options.inJustDecodeBounds = false;
-		Bitmap srcBitmap = BitmapFactory.decodeFile(srcPath, options);
+		
+		Bitmap srcBitmap;
+		try {
+			srcBitmap = BitmapFactory.decodeFile(srcPath, options);
+		} catch (OutOfMemoryError e) {
+			return flag;
+		}
 		if (srcBitmap == null) {
 			return flag;
 		}
